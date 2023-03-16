@@ -14,7 +14,7 @@ const Signin = () => {
   });
 
   const { voterID, password, error, loading, didRedirect } = values;
-  const { user } = isAutheticated();
+  // const { user } = isAutheticated();
 
   const handleChange = name => event => {
     setValues({ ...values, error: false, [name]: event.target.value });
@@ -27,8 +27,8 @@ const Signin = () => {
     signin({ voterID, password })
       .then(data => {
         console.log(data);
-        if (data.error !== undefined) {
-          setValues({ ...values, error: data.error, loading: false });
+        if (data.success === 0) {
+          setValues({ ...values, error: data.data, loading: false });
         } else {
           authenticate(data, () => {
             setValues({
@@ -43,15 +43,11 @@ const Signin = () => {
 
   const performRedirect = () => {
     if (didRedirect) {
-      if (user && user.role === 1) {
-        return <Redirect to="/admin/dashboard" />;
-      } else {
-        return <Redirect to="/user/dashboard" />;
-      }
+      return <Redirect to="/vote" />;
     }
-    if (isAutheticated()) {
-      return <Redirect to="/" />;
-    }
+    // if (isAutheticated()) {
+    //   return <Redirect to="/" />;
+    // }
   };
 
   const loadingMessage = () => {
@@ -70,9 +66,9 @@ const Signin = () => {
         <div className="col-md-6 offset-sm-3 text-left">
           <div
             className="alert alert-danger"
-            style={{ display: error ? "" : "none" }}
+            style={{ display: values.error ? "" : "none" }}
           >
-            {error}
+            {values.error}
           </div>
         </div>
       </div>

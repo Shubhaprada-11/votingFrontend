@@ -18,6 +18,16 @@ const Menu = ({ history }) => (
           Home
         </Link>
       </li>
+      <li className="nav-item">
+        <Link style={currentTab(history, "/results")} className="nav-link" to="/results">
+          Results
+        </Link>
+      </li>
+      {isAutheticated() && (<li className="nav-item">
+        <Link style={currentTab(history, "/vote")} className="nav-link" to="/vote">
+          Vote
+        </Link>
+      </li>)}
       {!isAutheticated() && (
         <Fragment>
           <li className="nav-item">
